@@ -19,6 +19,7 @@ const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
 const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 const s3 = new AWS.S3({
+  region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: awsAccessKeyId ? awsAccessKeyId : "",
     secretAccessKey: awsSecretAccessKey ? awsSecretAccessKey : "",
@@ -36,6 +37,17 @@ const upload = multer({
 // Healthcheck
 app.get("/", (req, res) => {
   res.status(200).send("Healthcheck");
+});
+
+// AWS Healthcheck
+app.post("/s3/healthcheck", (req, res) => {
+  s3.listBuckets((err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.status(200).send(data.Buckets);
+    }
+  });
 });
 
 // Upload a file to S3
