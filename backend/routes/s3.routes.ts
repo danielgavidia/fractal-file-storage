@@ -24,6 +24,6 @@ router.post("/upload", upload.single("file"), uploadFile);
 router.get("/download/:key", downloadFile);
 
 // Get file keys
-router.get("/keys/all", getFiles);
+router.get("/files", getFiles);
 
 export default router;
