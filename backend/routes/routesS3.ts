@@ -17,13 +17,13 @@ const upload = multer({
 // AWS Healthcheck
 router.post("/healthcheck", healthCheck);
 
-// Upload file to S3
-router.post("/upload", upload.single("file"), uploadFile);
+// Upload file to S3 for a given user
+router.post("/upload/:userId", upload.single("file"), uploadFile);
 
 // Get a file from S3
 router.get("/download/:key", downloadFile);
 
-// Get file keys
-router.get("/files", getFiles);
+// Get file keys for given user
+router.get("/files/:userId", getFiles);
 
 export default router;

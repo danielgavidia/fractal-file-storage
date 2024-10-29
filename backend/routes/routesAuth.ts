@@ -4,7 +4,7 @@ import { firebaseSignup } from "../controllers/firebaseSignup";
 
 const router = express.Router();
 
-router.post("login", firebaseLogin);
-router.post("signup", firebaseSignup);
+router.post("/login", firebaseLogin);
+router.post("/signup", firebaseSignup);
 
 export default router;

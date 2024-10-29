@@ -22,6 +22,8 @@ export const uploadFile = async (req: Request, res: Response) => {
     ContentType: req.file.mimetype,
   };
 
+  console.log(params);
+
   s3.upload(params, async (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
     // Error handling
     if (err) {
@@ -36,7 +38,8 @@ export const uploadFile = async (req: Request, res: Response) => {
     }
 
     // Logic
-    const { userId } = req.body;
+    const userId = req.params.userId;
+    console.log(userId);
     const prismaResponse: File = await createFile(userId, data.Key, data.Bucket, data.Location);
     const response = { awsResponse: data, prismaResponse: prismaResponse };
 
