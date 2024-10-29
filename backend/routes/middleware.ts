@@ -42,5 +42,7 @@ export const verifyFirebaseToken: RequestHandler = async (req, res, next) => {
     firebaseId: firebaseId,
     email: email,
   };
+  console.log("Middleware body:");
+  console.log(req.body);
   next();
 };

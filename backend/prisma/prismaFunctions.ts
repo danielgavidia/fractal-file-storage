@@ -1,5 +1,18 @@
 import prisma from "./client";
-import type { File } from "../types";
+import type { File, User } from "../types";
+
+// Get user
+export async function getUserPrisma(firebaseId: string): Promise<User> {
+  const res: User | null = await prisma.user.findUnique({
+    where: {
+      firebaseId: firebaseId,
+    },
+  });
+  if (!res) {
+    throw new Error("User not found");
+  }
+  return res;
+}
 
 // Create file
 export async function createFile(

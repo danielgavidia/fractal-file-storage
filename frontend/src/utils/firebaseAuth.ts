@@ -10,6 +10,8 @@ export async function firebaseAuth(authOperation: "login" | "signup"): Promise<U
   const result = await signInWithPopup(auth, provider);
   const idToken = await result.user.getIdToken();
 
+  console.log(`firebaseAuth idToken: ${idToken}`);
+
   const res = await axios.post(`http://localhost:3000/auth/${authOperation}`, null, {
     headers: { Authorization: `Bearer ${idToken}` },
   });
