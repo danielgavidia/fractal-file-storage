@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import s3Routes from "./routes/s3.routes";
+import routesAuth from "./routes/routesAuth";
+import routesS3 from "./routes/routesS3";
 
 dotenv.config();
 
@@ -17,8 +18,9 @@ app.get("/", (req, res) => {
   res.status(200).send("Healthcheck");
 });
 
-// AWS
-app.use("/s3", s3Routes);
+// Routes
+app.use("/auth", routesAuth);
+app.use("/s3", routesS3);
 
 // Start server
 app.listen(port, () => {
