@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 
 import { FileDisplay } from "@/components/FileDisplay";
-import { dummyFiles } from "@/utils/dummyData";
+// import { dummyFiles } from "@/utils/dummyData";
 import { getFiles } from "@/utils/getFiles";
 import { File } from "@/types/types";
+import { downloadFile } from "@/utils/downloadFile";
 
-const index = () => {
+const Files = () => {
   const [files, setFiles] = React.useState<File[]>([]);
 
   useEffect(() => {
@@ -17,11 +18,13 @@ const index = () => {
 
     fetchFiles();
   }, []);
+
   return (
     <div>
-      {Array.isArray(files) && files.map((file) => <FileDisplay key={file.id} file={file} />)}
+      {Array.isArray(files) &&
+        files.map((file) => <FileDisplay key={file.id} file={file} onDownload={downloadFile} />)}
     </div>
   );
 };
 
-export default index;
+export default Files;

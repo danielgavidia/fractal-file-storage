@@ -4,6 +4,8 @@ import { createFile } from "../prisma/prismaFunctions";
 import type { File } from "../types";
 
 export const uploadFile = async (req: Request, res: Response) => {
+  console.log("STARTED: uploadFile");
+
   // Error handling
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
