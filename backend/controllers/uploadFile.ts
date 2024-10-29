@@ -36,7 +36,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     }
 
     // Logic
-    const prismaResponse: File = await createFile(data.Key);
+    const prismaResponse: File = await createFile(data.Key, data.Bucket, data.Location);
     const response = { awsResponse: data, prismaResponse: prismaResponse };
 
     // Res

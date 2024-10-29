@@ -6,4 +6,6 @@ export type File = {
 
   // Fields
   fileKey: String;
+  bucket: String;
+  location: String;
 };

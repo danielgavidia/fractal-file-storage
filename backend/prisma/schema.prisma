@@ -14,5 +14,7 @@ model File {
   updatedAt DateTime @updatedAt
 
   // Fields
-  fileKey String @unique
+  fileKey  String @unique
+  bucket   String
+  location String
 }

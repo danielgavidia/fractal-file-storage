@@ -3,6 +3,7 @@ import multer from "multer";
 import { healthCheck } from "../controllers/healthCheck";
 import { downloadFile } from "../controllers/downloadFile";
 import { uploadFile } from "../controllers/uploadFile";
+import { getFiles } from "../controllers/getFiles";
 
 const router = express.Router();
 
@@ -21,5 +22,8 @@ router.post("/upload", upload.single("file"), uploadFile);
 
 // Get a file from S3
 router.get("/download/:key", downloadFile);
+
+// Get file keys
+router.get("/keys/all", getFiles);
 
 export default router;
