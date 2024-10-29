@@ -16,6 +16,9 @@ model User {
   // Fields
   firebaseId String @unique
   email      String @unique
+
+  // Relationships
+  files File[]
 }
 
 model File {
@@ -28,4 +31,8 @@ model File {
   fileKey  String @unique
   bucket   String
   location String
+
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }

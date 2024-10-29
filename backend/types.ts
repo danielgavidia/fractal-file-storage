@@ -16,6 +16,7 @@ export type File = {
   updatedAt: Date;
 
   // Fields
+  userId: String;
   fileKey: String;
   bucket: String;
   location: String;
