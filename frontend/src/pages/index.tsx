@@ -1,12 +1,7 @@
 import React from "react";
-import FileUpload from "@/components/FileUpload";
 
 const index = () => {
-  return (
-    <div>
-      <FileUpload />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default index;
