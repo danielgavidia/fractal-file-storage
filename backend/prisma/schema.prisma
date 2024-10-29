@@ -14,5 +14,5 @@ model File {
   updatedAt DateTime @updatedAt
 
   // Fields
-  s3FileKey String @unique
+  fileKey String @unique
 }
