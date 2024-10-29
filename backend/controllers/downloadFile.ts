@@ -1,9 +1,8 @@
 import type { Request, Response } from "express";
 import { s3, awsBucket } from "../aws";
+import { withLogging } from "../utils/withLogging";
 
-export const downloadFile = async (req: Request, res: Response) => {
-  console.log("STARTED: downloadFile");
-
+export const downloadFile = withLogging("downloadFile", async (req: Request, res: Response) => {
   if (!awsBucket) {
     throw new Error("AWS_BUCKET is required");
   }
@@ -42,4 +41,4 @@ export const downloadFile = async (req: Request, res: Response) => {
     // Send the file data in the response
     res.send(data.Body);
   });
-};
+});

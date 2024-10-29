@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import admin from "firebase-admin";
 import type { RequestHandler } from "express";
+import { withLogging } from "../utils/withLogging";
 
 dotenv.config();
 
@@ -25,22 +26,25 @@ if (!admin.apps.length) {
   });
 }
 
-export const verifyFirebaseToken: RequestHandler = async (req, res, next) => {
-  if (req.method === "OPTIONS") {
-    return next(); // Skip verification for OPTIONS requests
+export const verifyFirebaseToken: RequestHandler = withLogging(
+  "verifyFirebaseToken",
+  async (req, res, next) => {
+    if (req.method === "OPTIONS") {
+      return next(); // Skip verification for OPTIONS requests
+    }
+    const idToken = req.headers.authorization?.split("Bearer ")[1];
+    if (!idToken) {
+      res.status(400).json({ message: "No token provided" });
+      return;
+    }
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const firebaseId = decodedToken.uid;
+    const email = decodedToken.email;
+    req.body = {
+      ...req.body,
+      firebaseId: firebaseId,
+      email: email,
+    };
+    next();
   }
-  const idToken = req.headers.authorization?.split("Bearer ")[1];
-  if (!idToken) {
-    res.status(400).json({ message: "No token provided" });
-    return;
-  }
-  const decodedToken = await admin.auth().verifyIdToken(idToken);
-  const firebaseId = decodedToken.uid;
-  const email = decodedToken.email;
-  req.body = {
-    ...req.body,
-    firebaseId: firebaseId,
-    email: email,
-  };
-  next();
-};
+);

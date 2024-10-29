@@ -1,29 +1,37 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
+import { AuthContext } from "./AuthProvider";
 
 interface FileUploadProps {
-  onFileSelect?: (files: File[]) => void;
   maxSize?: number;
   accept?: string[];
+  uploadFile: (File: File, userId: string) => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
-  onFileSelect,
   maxSize = 5242880,
   accept = ["image/*", ".pdf", ".doc", ".docx"],
+  uploadFile,
 }) => {
+  const { userInfo } = useContext(AuthContext) ?? {};
   const [files, setFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      setFiles((prev) => [...prev, ...acceptedFiles]);
-      onFileSelect?.(acceptedFiles);
-    },
-    [onFileSelect]
-  );
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFiles((prev) => [...prev, ...acceptedFiles]);
+  }, []);
 
   const removeFile = (fileToRemove: File) => {
     setFiles((files) => files.filter((file) => file !== fileToRemove));
+  };
+
+  const handleUpload = async () => {
+    if (files.length === 0 || !userInfo?.id) return;
+
+    setIsUploading(true);
+    await Promise.all(files.map((file) => uploadFile(file, userInfo.id)));
+    setFiles([]);
+    setIsUploading(false);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -83,6 +91,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
               </li>
             ))}
           </ul>
+
+          <button
+            onClick={handleUpload}
+            disabled={isUploading}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          >
+            {isUploading ? "Uploading..." : "Upload Files"}
+          </button>
         </div>
       )}
     </div>

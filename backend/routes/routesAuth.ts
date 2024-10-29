@@ -1,10 +1,11 @@
 import express from "express";
-import { firebaseLogin } from "../controllers/firebaseLogin";
-import { firebaseSignup } from "../controllers/firebaseSignup";
+import { firebaseAuth } from "../controllers/firebaseAuth";
+import { getUser } from "../controllers/getUser";
+import { verifyFirebaseToken } from "./middleware";
 
 const router = express.Router();
 
-router.post("/login", firebaseLogin);
-router.post("/signup", firebaseSignup);
+router.post("/login", verifyFirebaseToken, firebaseAuth);
+router.post("/user", verifyFirebaseToken, getUser);
 
 export default router;
