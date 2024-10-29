@@ -5,8 +5,6 @@ import type { File } from "../types";
 import { withLogging } from "../utils/withLogging";
 
 export const uploadFile = withLogging("uploadFile", async (req: Request, res: Response) => {
-  console.log("STARTED: uploadFile");
-
   // Error handling
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
@@ -44,7 +42,6 @@ export const uploadFile = withLogging("uploadFile", async (req: Request, res: Re
     const response = { awsResponse: data, prismaResponse: prismaResponse };
 
     // Res
-    console.log(`SUCCESS: uploadFile, response: ${response}`);
     res.status(200).json(response);
   });
 });
