@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  // Defaults
+  id        String   @id @unique @default(uuid()) // or cuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Fields
+  firebaseId String @unique
+  email      String @unique
+}
+
 model File {
   // Defaults
   id        String   @id @unique @default(uuid()) // or cuid
