@@ -2,8 +2,9 @@ import type { Request, Response } from "express";
 import { s3, awsBucket } from "../aws";
 import { createFile } from "../prisma/prismaFunctions";
 import type { File } from "../types";
+import { withLogging } from "../utils/withLogging";
 
-export const uploadFile = async (req: Request, res: Response) => {
+export const uploadFile = withLogging("uploadFile", async (req: Request, res: Response) => {
   console.log("STARTED: uploadFile");
 
   // Error handling
@@ -24,8 +25,6 @@ export const uploadFile = async (req: Request, res: Response) => {
     ContentType: req.file.mimetype,
   };
 
-  console.log(params);
-
   s3.upload(params, async (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
     // Error handling
     if (err) {
@@ -41,12 +40,11 @@ export const uploadFile = async (req: Request, res: Response) => {
 
     // Logic
     const userId = req.params.userId;
-    console.log(userId);
     const prismaResponse: File = await createFile(userId, data.Key, data.Bucket, data.Location);
     const response = { awsResponse: data, prismaResponse: prismaResponse };
 
     // Res
-    console.log(response);
+    console.log(`SUCCESS: uploadFile, response: ${response}`);
     res.status(200).json(response);
   });
-};
+});

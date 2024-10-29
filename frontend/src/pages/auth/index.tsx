@@ -4,7 +4,7 @@ import AuthForm from "@/components/AuthForm";
 const index = () => {
   return (
     <div>
-      <AuthForm authOperation="login" />
+      <AuthForm />
     </div>
   );
 };

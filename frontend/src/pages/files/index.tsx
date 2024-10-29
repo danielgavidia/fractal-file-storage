@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
 import { FileDisplay } from "@/components/FileDisplay";
-// import { dummyFiles } from "@/utils/dummyData";
 import { getFiles } from "@/utils/getFiles";
 import { File } from "@/types/types";
 import { downloadFile } from "@/utils/downloadFile";
