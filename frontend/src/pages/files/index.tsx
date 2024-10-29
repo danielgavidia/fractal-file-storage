@@ -11,19 +11,22 @@ const Files = () => {
   const [files, setFiles] = React.useState<File[]>([]);
   const { userInfo } = useContext(AuthContext) ?? {};
 
-  // Early return if not authenticated
-  if (!userInfo?.id) {
-    return <div>Please log in to view your files.</div>;
-  }
-
   useEffect(() => {
+    if (!userInfo?.id) {
+      return;
+    }
     const fetchFiles = async () => {
       const userFiles = await getFiles(userInfo.id);
       setFiles(userFiles);
     };
 
     fetchFiles();
-  }, [userInfo.id]); // Add userInfo.id as dependency
+  }, [userInfo?.id]);
+
+  // Authentication check after hooks
+  if (!userInfo?.id) {
+    return <div>Please log in to view your files.</div>;
+  }
 
   return (
     <div>

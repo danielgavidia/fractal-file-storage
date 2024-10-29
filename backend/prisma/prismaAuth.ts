@@ -1,26 +1,17 @@
 import prisma from "./client";
 import type { User } from "../types";
 
-// Login
-export const getUserLogin = async (firebaseId: string): Promise<User> => {
-  const user = await prisma.user.findUnique({
+// Login / Signup
+export const getOrCreateUser = async (firebaseId: string, email: string): Promise<User> => {
+  const user = await prisma.user.upsert({
     where: {
       firebaseId: firebaseId,
     },
-  });
-  if (!user) {
-    throw new Error("User does not exist");
-  }
-  return user;
-};
-
-// Signup
-export const getUserSignup = async (firebaseId: string, email: string): Promise<User> => {
-  const userNew = await prisma.user.create({
-    data: {
+    update: {}, // No updates needed if user exists
+    create: {
       firebaseId: firebaseId,
       email: email,
     },
   });
-  return userNew;
+  return user;
 };

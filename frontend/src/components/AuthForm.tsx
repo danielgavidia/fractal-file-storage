@@ -4,11 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { firebaseAuth } from "@/utils/firebaseAuth";
 
-interface AuthProps {
-  authOperation: "login" | "signup";
-}
-
-const AuthForm = ({ authOperation }: AuthProps) => {
+const AuthForm = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -17,7 +13,7 @@ const AuthForm = ({ authOperation }: AuthProps) => {
     try {
       setLoading(true);
       setError("");
-      await firebaseAuth(authOperation);
+      await firebaseAuth();
       router.push("/files");
     } catch (err) {
       setError("Authentication failed. Please try again.");
@@ -31,12 +27,8 @@ const AuthForm = ({ authOperation }: AuthProps) => {
     <div className="flex h-full items-center justify-center p-6">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {authOperation === "login" ? "Welcome back" : "Create an account"}
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            {authOperation === "login" ? "Sign in to continue" : "Get started with Google"}
-          </p>
+          <h2 className="text-2xl font-bold text-gray-900">Welcome to App</h2>
+          <p className="mt-2 text-sm text-gray-600">Sign in with Google to continue</p>
         </div>
 
         <button
