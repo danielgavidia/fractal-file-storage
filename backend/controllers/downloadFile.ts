@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 import { s3, awsBucket } from "../aws";
 
 export const downloadFile = async (req: Request, res: Response) => {
+  console.log("STARTED: downloadFile");
+
   if (!awsBucket) {
     throw new Error("AWS_BUCKET is required");
   }
@@ -28,10 +30,11 @@ export const downloadFile = async (req: Request, res: Response) => {
       return;
     }
 
-    // Set the appropriate headers
+    // Set the appropriate headers for file download
     res.set({
       "Content-Type": data.ContentType,
       "Content-Length": data.ContentLength,
+      "Content-Disposition": `attachment; filename="${req.params.key}"`,
       "Last-Modified": data.LastModified,
       ETag: data.ETag,
     });
