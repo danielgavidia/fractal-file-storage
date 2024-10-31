@@ -3,7 +3,7 @@ import AuthForm from "@/components/AuthForm";
 
 const index = () => {
   return (
-    <div>
+    <div className="h-[calc(100vh-60px)]">
       <AuthForm />
     </div>
   );

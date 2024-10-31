@@ -41,37 +41,33 @@ const FileUpload: React.FC<FileUploadProps> = ({
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4">
       <div
         {...getRootProps()}
         className={`
-        p-8 border-2 border-dashed rounded-lg cursor-pointer
+        p-8 border-[1px] border-dashed rounded-lg cursor-pointer
         transition-all duration-200 ease-in-out
-        ${isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"}
+        ${isDragActive ? "" : "hover:text-white hover:bg-black"}
       `}
       >
         <input {...getInputProps()} />
-        <div className="text-center">
+        <div className="text-center hover:text-white">
           <div className="text-4xl mb-4">📁</div>
-          <p className="text-lg text-gray-600 mb-2">
-            Drag & drop files here, or click to select files
-          </p>
-          <p className="text-sm text-gray-500">Supported files: {accept.join(", ")}</p>
-          <p className="text-sm text-gray-500">
-            Max size: {(maxSize / (1024 * 1024)).toFixed(1)}MB
-          </p>
+          <p className="text-lg mb-2">Drag & drop files here, or click to select files</p>
+          <p className="text-sm">Supported files: {accept.join(", ")}</p>
+          <p className="text-sm ">Max size: {(maxSize / (1024 * 1024)).toFixed(1)}MB</p>
         </div>
       </div>
 
       {/* File Preview Section */}
       {files.length > 0 && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold mb-2">Selected Files:</h3>
+        <div className="p-1">
+          <h3 className="text-sm font-semibold mb-2">Selected Files:</h3>
           <ul className="space-y-2">
             {files.map((file, index) => (
               <li
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                className="flex items-center justify-between p-2 rounded border-[0.5px] border-black"
               >
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">{file.name}</span>
@@ -84,7 +80,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                     e.stopPropagation();
                     removeFile(file);
                   }}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-black hover:text-red-700"
                 >
                   ×
                 </button>
@@ -95,7 +91,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
+            className="mt-4 px-4 py-2 bg-black text-white text-sm rounded hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
           >
             {isUploading ? "Uploading..." : "Upload Files"}
           </button>

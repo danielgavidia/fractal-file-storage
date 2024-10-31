@@ -25,8 +25,10 @@ const Files = () => {
 
   return (
     <AuthGuard>
-      {Array.isArray(files) &&
-        files.map((file) => <FileDisplay key={file.id} file={file} onDownload={downloadFile} />)}
+      <div className="w-full flex flex-col">
+        {Array.isArray(files) &&
+          files.map((file) => <FileDisplay key={file.id} file={file} onDownload={downloadFile} />)}
+      </div>
     </AuthGuard>
   );
 };

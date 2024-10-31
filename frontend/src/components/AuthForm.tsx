@@ -24,10 +24,10 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex h-full items-center justify-center p-6">
+    <div className="flex h-full items-center justify-center p-2">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Welcome to App</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Welcome to Danielbox</h2>
           <p className="mt-2 text-sm text-gray-600">Sign in with Google to continue</p>
         </div>
 
