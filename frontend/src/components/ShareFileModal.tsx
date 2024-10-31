@@ -1,6 +1,7 @@
 import { User } from "@/types/types";
 import { getUsersAll } from "@/utils/getUsersAll";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthProvider";
 
 interface ShareFileModalProps {
   onShare: (
@@ -24,6 +25,7 @@ const ShareFileModal: React.FC<ShareFileModalProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState<User[]>([]);
+  const { userInfo } = useContext(AuthContext) ?? {};
 
   useEffect(() => {
     const fetch = async () => {
@@ -59,20 +61,26 @@ const ShareFileModal: React.FC<ShareFileModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            {filteredUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex justify-between items-center p-2 border rounded-lg"
-              >
-                <span>{user.email}</span>
-                <button
-                  onClick={() => onShare(user.id, fileKey, bucket, location)}
-                  className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-                >
-                  Share
-                </button>
-              </div>
-            ))}
+            {filteredUsers.map((user) => {
+              if (user.id === userInfo?.id) {
+                return <></>;
+              } else {
+                return (
+                  <div
+                    key={user.id}
+                    className="flex justify-between items-center p-2 border rounded-lg"
+                  >
+                    <span>{user.email}</span>
+                    <button
+                      onClick={() => onShare(user.id, fileKey, bucket, location)}
+                      className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                    >
+                      Share
+                    </button>
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       </div>
