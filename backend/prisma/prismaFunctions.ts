@@ -3,14 +3,20 @@ import type { File, User } from "../types";
 
 // Get user
 export async function getUserPrisma(firebaseId: string): Promise<User> {
-  const res: User | null = await prisma.user.findUnique({
+  const res = await prisma.user.findUnique({
     where: {
       firebaseId: firebaseId,
     },
   });
+
+  console.log(res);
+
   if (!res) {
-    throw new Error("User not found");
+    throw new Error(
+      `User with firebaseId ${firebaseId} not found. Please ensure user is created first.`
+    );
   }
+
   return res;
 }
 
@@ -21,6 +27,18 @@ export async function createFile(
   bucket: string,
   location: string
 ): Promise<File> {
+  // First verify the user exists
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    throw new Error(`User with id ${userId} not found. Cannot create file.`);
+  }
+
+  // Then create the file
   const res: File = await prisma.file.upsert({
     where: {
       fileKey: fileKey,
