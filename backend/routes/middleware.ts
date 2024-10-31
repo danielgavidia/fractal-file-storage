@@ -28,6 +28,7 @@ if (!admin.apps.length) {
 
 export const verifyFirebaseToken: RequestHandler = withLogging(
   "verifyFirebaseToken",
+  false,
   async (req, res, next) => {
     if (req.method === "OPTIONS") {
       return next(); // Skip verification for OPTIONS requests

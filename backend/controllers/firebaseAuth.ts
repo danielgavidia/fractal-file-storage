@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
+import { withLogging } from "../utils/withLogging";
 import { getOrCreateUser } from "../prisma/prismaAuth";
 import type { User } from "../types";
-import { withLogging } from "../utils/withLogging";
 
 export const firebaseAuth = withLogging(
   "firebaseAuth",

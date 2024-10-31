@@ -4,7 +4,7 @@ import { createFile } from "../prisma/prismaFunctions";
 import type { File } from "../types";
 import { withLogging } from "../utils/withLogging";
 
-export const uploadFile = withLogging("uploadFile", async (req: Request, res: Response) => {
+export const uploadFile = withLogging("uploadFile", false, async (req: Request, res: Response) => {
   // Error handling
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
