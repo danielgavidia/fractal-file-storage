@@ -31,6 +31,6 @@ router.get("/files/:userId", getFiles);
 router.post("/share", getFiles);
 
 // Get all users
-router.post("/users/all", getUsersAll);
+router.get("/users/all", getUsersAll);
 
 export default router;

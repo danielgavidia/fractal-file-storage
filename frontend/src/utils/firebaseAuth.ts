@@ -1,17 +1,11 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
 import { auth } from "../auth/firebaseConfig";
 
-export async function firebaseAuth(): Promise<void> {
-  try {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-      prompt: "select_account",
-    });
-
-    const result = await signInWithPopup(auth, provider);
-    console.log(result);
-  } catch (error) {
-    console.error("Firebase Auth Error:", error);
-    throw error;
-  }
+export async function firebaseAuth(): Promise<UserCredential> {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
+  const result: UserCredential = await signInWithPopup(auth, provider);
+  return result;
 }

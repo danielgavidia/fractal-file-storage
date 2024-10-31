@@ -1,4 +1,7 @@
 import type { File } from "@/types/types";
+import { useState } from "react";
+import ShareFileModal from "./ShareFileModal";
+import { shareFile } from "@/utils/shareFile";
 
 interface FileDisplayProps {
   file: File;
@@ -6,6 +9,8 @@ interface FileDisplayProps {
 }
 
 export const FileDisplay: React.FC<FileDisplayProps> = ({ file, onDownload }) => {
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm border border-gray-100">
       <div className="space-y-2">
@@ -37,9 +42,7 @@ export const FileDisplay: React.FC<FileDisplayProps> = ({ file, onDownload }) =>
               Download File
             </button>
             <button
-              onClick={() => {
-                /* TODO: Implement share functionality */
-              }}
+              onClick={() => setIsShareModalOpen(true)}
               className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-700 transition-colors"
             >
               Share
@@ -47,6 +50,17 @@ export const FileDisplay: React.FC<FileDisplayProps> = ({ file, onDownload }) =>
           </div>
         )}
       </div>
+
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <ShareFileModal
+          onShare={shareFile}
+          onClose={() => setIsShareModalOpen(false)}
+          fileKey={file.fileKey}
+          bucket={file.bucket}
+          location={file.location}
+        />
+      )}
     </div>
   );
 };
