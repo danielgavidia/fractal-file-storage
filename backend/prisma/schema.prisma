@@ -18,7 +18,7 @@ model User {
   email      String @unique
 
   // Relationships
-  files File[]
+  files File[] @relation("UserFiles")
 }
 
 model File {
@@ -33,6 +33,5 @@ model File {
   location String
 
   // Relationships
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  users User[] @relation("UserFiles")
 }

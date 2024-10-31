@@ -22,6 +22,16 @@ export const getUserPrisma = withLogging(
   }
 );
 
+// Get users (all)
+export const getUsersAllPrisma = withLogging(
+  "getAllUsersPrisma",
+  true,
+  async (): Promise<User[]> => {
+    const res: User[] = await prisma.user.findMany();
+    return res;
+  }
+);
+
 // Create file
 export const createFile = withLogging(
   "createFile",
@@ -38,17 +48,27 @@ export const createFile = withLogging(
       throw new Error(`User with id ${userId} not found. Cannot create file.`);
     }
 
-    // Then create the file
+    // Create or update the file and connect it to the user
     const res: File = await prisma.file.upsert({
       where: {
         fileKey: fileKey,
       },
-      update: {},
+      update: {
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
       create: {
-        userId: userId,
         fileKey: fileKey,
         bucket: bucket,
         location: location,
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
     return res;
@@ -62,7 +82,11 @@ export const getFilesPrisma = withLogging(
   async (userId: string): Promise<File[]> => {
     const res: File[] = await prisma.file.findMany({
       where: {
-        userId: userId,
+        users: {
+          some: {
+            id: userId,
+          },
+        },
       },
     });
     return res;
