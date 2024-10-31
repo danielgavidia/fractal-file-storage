@@ -1,9 +1,9 @@
 import { ReactNode, useState, useEffect } from "react";
-import { User } from "../types/types";
 import { createContext } from "react";
 import { auth } from "../auth/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { getUser } from "@/utils/getUser";
+import axios from "axios";
+import type { User } from "@/types/types";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -22,22 +22,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        // Here you would typically fetch your user data from your backend
-        console.log("Starting Auth Provider");
-        const idToken = await firebaseUser.getIdToken();
-        const userData = await getUser(idToken);
-
-        console.log(userData);
-        setUserInfo(userData);
-      } else {
+      try {
+        if (firebaseUser) {
+          const idToken = await firebaseUser.getIdToken();
+          const response = await axios.post(`http://localhost:3000/auth/login`, null, {
+            headers: { Authorization: `Bearer ${idToken}` },
+          });
+          const user: User = response.data.user;
+          setUserInfo(user);
+        } else {
+          setUserInfo(null);
+        }
+      } catch (error) {
+        console.error("Error in auth state change:", error);
         setUserInfo(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, [auth]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return <AuthContext.Provider value={{ userInfo, loading }}>{children}</AuthContext.Provider>;
 };

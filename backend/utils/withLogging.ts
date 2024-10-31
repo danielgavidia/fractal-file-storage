@@ -50,16 +50,17 @@ export const withLogging = <TReturn, TArgs extends any[]>(
 
       return result;
     } catch (error) {
-      console.log(separator);
+      console.log(`${colors.red}${separator}${colors.reset}`);
       console.log(
         `${
           colors.red
         }FN | ${new Date().toISOString()} | ${operationName} | ${requestId} | ERROR ===>${
           colors.reset
-        }`,
-        error
+        }${colors.red}`,
+        error,
+        `${colors.reset}`
       );
-      console.log(separator);
+      console.log(`${colors.red}${separator}${colors.reset}`);
       throw error;
     }
   };
