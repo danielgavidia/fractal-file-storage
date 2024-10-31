@@ -1,5 +1,6 @@
 import axios from "axios";
 import { withLogging } from "./withLogging";
+import { getAuth } from "firebase/auth";
 
 interface UploadResponse {
   url: string;
@@ -9,6 +10,8 @@ export const uploadFile = withLogging(
   "uploadFile",
   true,
   async (file: File, userId: string): Promise<UploadResponse> => {
+    const idToken = await getAuth().currentUser?.getIdToken();
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -18,6 +21,7 @@ export const uploadFile = withLogging(
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${idToken}`,
         },
       }
     );

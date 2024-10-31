@@ -1,12 +1,17 @@
 import axios from "axios";
 import { withLogging } from "./withLogging";
+import { getAuth } from "firebase/auth";
 
 export const downloadFile = withLogging(
   "downloadFile",
   false,
   async (fileKey: string): Promise<void> => {
-    const response = await axios.get(`http://localhost:3000/s3/download/${fileKey}`, {
+    const idToken = await getAuth().currentUser?.getIdToken();
+    const response = await axios.post(`http://localhost:3000/s3/download/${fileKey}`, null, {
       responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
     });
 
     // Create a blob URL from the response data

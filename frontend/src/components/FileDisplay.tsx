@@ -2,7 +2,6 @@ import type { File } from "@/types/types";
 import { useState } from "react";
 import ShareFileModal from "./ShareFileModal";
 import { shareFile } from "@/utils/shareFile";
-import useAuth from "@/hooks/useAuth";
 
 interface FileDisplayProps {
   file: File;
@@ -11,8 +10,6 @@ interface FileDisplayProps {
 
 export const FileDisplay: React.FC<FileDisplayProps> = ({ file, onDownload }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
-  const { idToken } = useAuth();
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm border border-gray-100">

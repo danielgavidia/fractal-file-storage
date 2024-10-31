@@ -6,6 +6,7 @@ import { uploadFile } from "../controllers/uploadFile";
 import { getFiles } from "../controllers/getFiles";
 import { getUsersAll } from "../controllers/getUsersAll";
 import { shareFile } from "../controllers/shareFile";
+import { verifyFirebaseToken } from "./middleware";
 
 const router = express.Router();
 
@@ -17,21 +18,21 @@ const upload = multer({
 });
 
 // AWS Healthcheck
-router.post("/healthcheck", healthCheck);
+router.post("/healthcheck", verifyFirebaseToken, healthCheck);
 
 // Upload file to S3 for a given user
-router.post("/upload/:userId", upload.single("file"), uploadFile);
+router.post("/upload/:userId", verifyFirebaseToken, upload.single("file"), uploadFile);
 
 // Get a file from S3
-router.get("/download/:key", downloadFile);
+router.post("/download/:key", verifyFirebaseToken, downloadFile);
 
 // Get file keys for given user
-router.get("/files/:userId", getFiles);
+router.post("/files/:userId", verifyFirebaseToken, getFiles);
 
 // Share file with another user
-router.post("/share", shareFile);
+router.post("/share", verifyFirebaseToken, shareFile);
 
 // Get all users
-router.get("/users/all", getUsersAll);
+router.post("/users/all", verifyFirebaseToken, getUsersAll);
 
 export default router;

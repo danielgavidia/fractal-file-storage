@@ -64,15 +64,12 @@ const ShareFileModal: React.FC<ShareFileModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            {filteredUsers.map((user) => {
+            {filteredUsers.map((user, id) => {
               if (user.id === userInfo?.id) {
                 return <></>;
               } else {
                 return (
-                  <div
-                    key={user.id}
-                    className="flex justify-between items-center p-2 border rounded-lg"
-                  >
+                  <div key={id} className="flex justify-between items-center p-2 border rounded-lg">
                     <span>{user.email}</span>
                     <button
                       onClick={() => onShare(user.id, fileKey, bucket, location)}

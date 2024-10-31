@@ -11,7 +11,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      localStorage.removeItem("idToken");
       router.replace("/auth");
     } catch (error) {
       console.error("Error signing out:", error);
