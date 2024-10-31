@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { FileDisplay } from "@/components/FileDisplay";
 import { getFiles } from "@/utils/getFiles";
 import { File } from "@/types/types";
 import { downloadFile } from "@/utils/downloadFile";
-import { AuthContext } from "@/components/AuthProvider";
+import AuthGuard from "@/components/AuthGuard";
+import useAuth from "@/hooks/useAuth";
 
 const Files = () => {
   const [files, setFiles] = React.useState<File[]>([]);
-  const { userInfo } = useContext(AuthContext) ?? {};
+  const { userInfo } = useAuth();
 
   useEffect(() => {
     if (!userInfo?.id) {
@@ -22,16 +23,11 @@ const Files = () => {
     fetchFiles();
   }, [userInfo?.id]);
 
-  // Authentication check after hooks
-  if (!userInfo?.id) {
-    return <div>Please log in to view your files.</div>;
-  }
-
   return (
-    <div>
+    <AuthGuard>
       {Array.isArray(files) &&
         files.map((file) => <FileDisplay key={file.id} file={file} onDownload={downloadFile} />)}
-    </div>
+    </AuthGuard>
   );
 };
 

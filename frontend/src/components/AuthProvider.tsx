@@ -10,6 +10,7 @@ interface AuthProviderProps {
 }
 
 export interface AuthContextType {
+  idToken: string | null;
   userInfo: User | null;
   loading: boolean;
 }
@@ -17,6 +18,7 @@ export interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [idToken, setIdToken] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       try {
         if (firebaseUser) {
           const idToken = await firebaseUser.getIdToken();
+          setIdToken(idToken);
           const response = await axios.post(`http://localhost:3000/auth/login`, null, {
             headers: { Authorization: `Bearer ${idToken}` },
           });
@@ -48,5 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return <div>Loading...</div>;
   }
 
-  return <AuthContext.Provider value={{ userInfo, loading }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ idToken, userInfo, loading }}>{children}</AuthContext.Provider>
+  );
 };

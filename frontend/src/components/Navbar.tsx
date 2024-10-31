@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { auth } from "../auth/firebaseConfig";
 import { signOut } from "firebase/auth";
-import { useContext } from "react";
-import { AuthContext } from "@/components/AuthProvider";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const { userInfo } = useContext(AuthContext) ?? {};
+  const { userInfo } = useAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem("idToken");
+      router.replace("/auth");
     } catch (error) {
       console.error("Error signing out:", error);
     }
