@@ -4,6 +4,7 @@ import { healthCheck } from "../controllers/healthCheck";
 import { downloadFile } from "../controllers/downloadFile";
 import { uploadFile } from "../controllers/uploadFile";
 import { getFiles } from "../controllers/getFiles";
+import { getAllUsers } from "../controllers/getAllUsers";
 
 const router = express.Router();
 
@@ -25,5 +26,11 @@ router.get("/download/:key", downloadFile);
 
 // Get file keys for given user
 router.get("/files/:userId", getFiles);
+
+// Share file with another user
+router.post("/share", getFiles);
+
+// Get all users
+router.post("/users/all", getAllUsers);
 
 export default router;

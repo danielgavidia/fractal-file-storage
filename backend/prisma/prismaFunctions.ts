@@ -22,6 +22,16 @@ export const getUserPrisma = withLogging(
   }
 );
 
+// Get users (all)
+export const getAllUsersPrisma = withLogging(
+  "getAllUsersPrisma",
+  true,
+  async (): Promise<User[]> => {
+    const res: User[] = await prisma.user.findMany();
+    return res;
+  }
+);
+
 // Create file
 export const createFile = withLogging(
   "createFile",

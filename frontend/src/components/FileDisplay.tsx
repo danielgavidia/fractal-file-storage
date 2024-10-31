@@ -27,14 +27,22 @@ export const FileDisplay: React.FC<FileDisplayProps> = ({ file, onDownload }) =>
           <span className="text-sm text-gray-600">{new Date(file.updatedAt).toLocaleString()}</span>
         </div>
 
-        {/* Download Button */}
+        {/* Action Buttons */}
         {onDownload && (
-          <div className="mt-4">
+          <div className="mt-4 flex space-x-2">
             <button
               onClick={() => onDownload(file.fileKey)}
               className="px-4 py-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
             >
               Download File
+            </button>
+            <button
+              onClick={() => {
+                /* TODO: Implement share functionality */
+              }}
+              className="px-4 py-2 text-sm text-white bg-green-600 rounded hover:bg-green-700 transition-colors"
+            >
+              Share
             </button>
           </div>
         )}
