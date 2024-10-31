@@ -1,7 +1,7 @@
 import { User } from "@/types/types";
 import { getUsersAll } from "@/utils/getUsersAll";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "./AuthProvider";
+import { useEffect, useState } from "react";
+import useAuth from "@/hooks/useAuth";
 
 interface ShareFileModalProps {
   onShare: (
@@ -23,9 +23,12 @@ const ShareFileModal: React.FC<ShareFileModalProps> = ({
   bucket,
   location,
 }) => {
+  // Context
+  const { userInfo } = useAuth();
+
+  // State
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState<User[]>([]);
-  const { userInfo } = useContext(AuthContext) ?? {};
 
   useEffect(() => {
     const fetch = async () => {

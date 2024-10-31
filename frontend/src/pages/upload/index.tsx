@@ -1,12 +1,13 @@
 import React from "react";
 import FileUpload from "@/components/FileUpload";
 import { uploadFile } from "@/utils/uploadFile";
+import AuthGuard from "@/components/AuthGuard";
 
 const index = () => {
   return (
-    <div>
+    <AuthGuard>
       <FileUpload uploadFile={uploadFile} />
-    </div>
+    </AuthGuard>
   );
 };
 

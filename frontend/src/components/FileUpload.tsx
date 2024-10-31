@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { AuthContext } from "./AuthProvider";
+import useAuth from "@/hooks/useAuth";
 
 interface FileUploadProps {
   maxSize?: number;
@@ -13,7 +13,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   accept = ["image/*", ".pdf", ".doc", ".docx"],
   uploadFile,
 }) => {
-  const { userInfo } = useContext(AuthContext) ?? {};
+  const { userInfo } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
