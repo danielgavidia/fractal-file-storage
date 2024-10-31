@@ -19,40 +19,38 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
-      <Link href="/files" className="text-2xl font-bold text-gray-800 hover:text-gray-600">
+    <nav className="flex items-center px-8 py-2 bg-white shadow-sm">
+      <Link href="/files" className="text-md flex-1 font-bold text-gray-800">
         Danielbox
       </Link>
 
-      <div className="flex gap-4">
-        <Link
-          href="/files"
-          className="px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
+      <Link
+        href="/files"
+        className="px-4 py-2 text-gray-800 text-sm font-light hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
+      >
+        Files
+      </Link>
+      <Link
+        href="/upload"
+        className="px-4 py-2 text-gray-800 text-sm font-light hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
+      >
+        Upload
+      </Link>
+      {userInfo ? (
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 text-gray-800 text-sm font-light hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
         >
-          Files
-        </Link>
+          Logout
+        </button>
+      ) : (
         <Link
-          href="/upload"
-          className="px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
+          href="/auth"
+          className="px-4 py-2 text-gray-800 text-sm font-light hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
         >
-          Upload New
+          Login
         </Link>
-        {userInfo ? (
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
-          >
-            Logout
-          </button>
-        ) : (
-          <Link
-            href="/auth"
-            className="px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-600 rounded-md transition-colors"
-          >
-            Login
-          </Link>
-        )}
-      </div>
+      )}
     </nav>
   );
 };
