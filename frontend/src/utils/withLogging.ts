@@ -1,5 +1,3 @@
-const separator = "-------------------------------";
-
 export const withLogging = <TReturn, TArgs extends any[]>(
   operationName: string,
   logRes: boolean,
@@ -16,7 +14,6 @@ export const withLogging = <TReturn, TArgs extends any[]>(
   return async (...args: TArgs): Promise<TReturn> => {
     const requestId = String(Math.floor(Math.random() * 100)).padStart(2, "0");
     // Started operation
-    console.log(`${colors.lightViolet}${separator}${colors.reset}`);
     console.log(
       `${
         colors.lightViolet
@@ -24,10 +21,8 @@ export const withLogging = <TReturn, TArgs extends any[]>(
         colors.reset
       }`
     );
-    console.log(`${colors.lightViolet}${separator}${colors.reset}`);
     try {
       const result = await fn(...args);
-      console.log(`${colors.violet}${separator}${colors.reset}`);
       if (logRes) {
         console.log(
           `${
@@ -46,11 +41,9 @@ export const withLogging = <TReturn, TArgs extends any[]>(
           }`
         );
       }
-      console.log(`${colors.violet}${separator}${colors.reset}`);
 
       return result;
     } catch (error) {
-      console.log(`${colors.red}${separator}${colors.reset}`);
       console.log(
         `${
           colors.red
@@ -60,7 +53,6 @@ export const withLogging = <TReturn, TArgs extends any[]>(
         error,
         `${colors.reset}`
       );
-      console.log(`${colors.red}${separator}${colors.reset}`);
       throw error;
     }
   };

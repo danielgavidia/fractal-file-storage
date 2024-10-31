@@ -3,7 +3,7 @@ import { withLogging } from "./withLogging";
 
 export const downloadFile = withLogging(
   "downloadFile",
-  true,
+  false,
   async (fileKey: string): Promise<void> => {
     const response = await axios.get(`http://localhost:3000/s3/download/${fileKey}`, {
       responseType: "blob",
