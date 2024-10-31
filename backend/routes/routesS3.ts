@@ -4,7 +4,7 @@ import { healthCheck } from "../controllers/healthCheck";
 import { downloadFile } from "../controllers/downloadFile";
 import { uploadFile } from "../controllers/uploadFile";
 import { getFiles } from "../controllers/getFiles";
-import { getAllUsers } from "../controllers/getAllUsers";
+import { getUsersAll } from "../controllers/getUsersAll";
 
 const router = express.Router();
 
@@ -31,6 +31,6 @@ router.get("/files/:userId", getFiles);
 router.post("/share", getFiles);
 
 // Get all users
-router.post("/users/all", getAllUsers);
+router.post("/users/all", getUsersAll);
 
 export default router;

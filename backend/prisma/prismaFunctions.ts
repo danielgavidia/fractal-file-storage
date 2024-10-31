@@ -23,7 +23,7 @@ export const getUserPrisma = withLogging(
 );
 
 // Get users (all)
-export const getAllUsersPrisma = withLogging(
+export const getUsersAllPrisma = withLogging(
   "getAllUsersPrisma",
   true,
   async (): Promise<User[]> => {
